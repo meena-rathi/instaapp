@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
+import axios from "axios";
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
-import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
-import axios from "axios";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -14,7 +14,7 @@ const SignUpForm = () => {
   });
   const { username, password1, password2 } = signUpData;
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});  // Initialize errors as an empty object
 
   const history = useHistory();
 
@@ -31,14 +31,14 @@ const SignUpForm = () => {
       await axios.post("/dj-rest-auth/registration/", signUpData);
       history.push("/signin");
     } catch (err) {
-      setErrors(err.response?.data || {});
+      setErrors(err.response?.data || {});  // Ensure errors is an object
     }
   };
 
   return (
     <Row className={styles.Row}>
       <Col className="my-auto py-2 p-md-2" md={6}>
-        <Container className={`${appStyles.Content} p-4 `}>
+        <Container className={`${appStyles.Content} p-4`}>
           <h1 className={styles.Header}>Sign Up</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="username">
@@ -52,7 +52,7 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.username?.map((message, idx) => (
+            {errors.username && errors.username.map((message, idx) => (  // Add null check
               <Alert variant="warning" key={idx}>
                 {message}
               </Alert>
@@ -69,7 +69,7 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.password1?.map((message, idx) => (
+            {errors.password1 && errors.password1.map((message, idx) => (  // Add null check
               <Alert key={idx} variant="warning">
                 {message}
               </Alert>
@@ -86,7 +86,7 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.password2?.map((message, idx) => (
+            {errors.password2 && errors.password2.map((message, idx) => (  // Add null check
               <Alert key={idx} variant="warning">
                 {message}
               </Alert>
@@ -98,17 +98,16 @@ const SignUpForm = () => {
             >
               Sign Up
             </Button>
-            {errors.non_field_errors?.map((message, idx) => (
+            {errors.non_field_errors && errors.non_field_errors.map((message, idx) => (  // Add null check
               <Alert key={idx} variant="warning" className="mt-3">
                 {message}
               </Alert>
             ))}
           </Form>
         </Container>
-
         <Container className={`mt-3 ${appStyles.Content}`}>
           <Link className={styles.Link} to="/signin">
-            Already have an account? <span>Sign in</span>
+            Already have an account? <span>Sign In</span>
           </Link>
         </Container>
       </Col>
