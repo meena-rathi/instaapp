@@ -11,7 +11,7 @@ import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
 
-const Navv = () => {
+const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
@@ -119,4 +119,4 @@ const Navv = () => {
   );
 };
 
-export default Navv;
+export default NavBar;
